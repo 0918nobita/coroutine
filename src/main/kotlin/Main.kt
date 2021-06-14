@@ -7,13 +7,18 @@ import kotlinx.coroutines.runBlocking
 
 suspend fun sub() = coroutineScope {
     // Concurrently executes both sections
-    launch {
+    val job1 = launch {
         delay(2000L)
         println("B1")
     }
-    launch {
+    val job2 = launch {
         delay(4000L)
         println("B2")
+    }
+    launch {
+        job1.join()
+        job2.join()
+        println("C")
     }
     println("A")
 }
